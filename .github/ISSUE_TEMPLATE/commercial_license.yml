@@ -1,0 +1,41 @@
+name: Commercial License Inquiry
+description: Request a commercial license for SentinelAI
+labels: [commercial-license]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        SentinelAI is free for personal, educational, and non-commercial use.
+        Commercial use requires a separate license from Stacksheild.
+
+  - type: input
+    id: company
+    attributes:
+      label: Company / Organization
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: How will you use SentinelAI?
+      description: Briefly describe your intended commercial use.
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: Contact email
+    validations:
+      required: true
+
+  - type: dropdown
+    id: team-size
+    attributes:
+      label: Team size
+      options:
+        - 1-5
+        - 6-25
+        - 26-100
+        - 100+
