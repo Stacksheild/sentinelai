@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SentinelAI Detection Rule",
+  "type": "object",
+  "required": ["id", "title", "description", "severity", "analyzers", "pattern"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z]+-[0-9]{3}$",
+      "description": "Rule ID (e.g., EXFIL-001)"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "analyzers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["skill-analyzer", "mcp-analyzer", "hook-analyzer", "connector-analyzer"]
+      }
+    },
+    "pattern": {
+      "type": "object",
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["regex", "ast", "semantic"]
+        },
+        "value": { "type": "string" },
+        "exclude": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "cwe": { "type": "string" },
+        "references": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

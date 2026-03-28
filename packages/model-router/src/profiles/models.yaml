@@ -1,0 +1,147 @@
+# Model capability profiles
+# Quality scores: 1.0 (poor) to 5.0 (excellent)
+# Community-maintained — submit PRs with benchmark citations
+
+- model: claude-opus-4-20250514
+  provider: anthropic
+  capabilities:
+    code-generation: 4.8
+    code-review: 4.7
+    summarization: 4.5
+    chat: 4.6
+    analysis: 4.9
+    translation: 4.3
+    extraction: 4.7
+    creative: 4.6
+  pricing:
+    inputPerMtok: 15.0
+    outputPerMtok: 75.0
+  maxContext: 200000
+  medianLatencyMs: 2500
+  outputSpeedTps: 60
+
+- model: claude-sonnet-4-20250514
+  provider: anthropic
+  capabilities:
+    code-generation: 4.5
+    code-review: 4.4
+    summarization: 4.3
+    chat: 4.4
+    analysis: 4.5
+    translation: 4.2
+    extraction: 4.4
+    creative: 4.3
+  pricing:
+    inputPerMtok: 3.0
+    outputPerMtok: 15.0
+  maxContext: 200000
+  medianLatencyMs: 1200
+  outputSpeedTps: 80
+
+- model: claude-haiku-3.5
+  provider: anthropic
+  capabilities:
+    code-generation: 3.8
+    code-review: 3.6
+    summarization: 3.9
+    chat: 4.0
+    analysis: 3.7
+    translation: 3.8
+    extraction: 3.9
+    creative: 3.5
+  pricing:
+    inputPerMtok: 0.8
+    outputPerMtok: 4.0
+  maxContext: 200000
+  medianLatencyMs: 500
+  outputSpeedTps: 120
+
+- model: gpt-4o
+  provider: openai
+  capabilities:
+    code-generation: 4.3
+    code-review: 4.2
+    summarization: 4.2
+    chat: 4.3
+    analysis: 4.3
+    translation: 4.1
+    extraction: 4.3
+    creative: 4.2
+  pricing:
+    inputPerMtok: 2.5
+    outputPerMtok: 10.0
+  maxContext: 128000
+  medianLatencyMs: 800
+  outputSpeedTps: 90
+
+- model: gpt-4o-mini
+  provider: openai
+  capabilities:
+    code-generation: 3.5
+    code-review: 3.3
+    summarization: 3.7
+    chat: 3.8
+    analysis: 3.4
+    translation: 3.6
+    extraction: 3.7
+    creative: 3.4
+  pricing:
+    inputPerMtok: 0.15
+    outputPerMtok: 0.6
+  maxContext: 128000
+  medianLatencyMs: 400
+  outputSpeedTps: 130
+
+- model: gemini-2.0-flash
+  provider: google
+  capabilities:
+    code-generation: 3.7
+    code-review: 3.5
+    summarization: 3.9
+    chat: 3.8
+    analysis: 3.6
+    translation: 3.9
+    extraction: 3.8
+    creative: 3.4
+  pricing:
+    inputPerMtok: 0.1
+    outputPerMtok: 0.4
+  maxContext: 1000000
+  medianLatencyMs: 300
+  outputSpeedTps: 150
+
+- model: deepseek-chat
+  provider: deepseek
+  capabilities:
+    code-generation: 4.0
+    code-review: 3.8
+    summarization: 3.7
+    chat: 3.6
+    analysis: 3.8
+    translation: 3.5
+    extraction: 3.6
+    creative: 3.3
+  pricing:
+    inputPerMtok: 0.14
+    outputPerMtok: 0.28
+  maxContext: 128000
+  medianLatencyMs: 600
+  outputSpeedTps: 100
+
+- model: mistral-large
+  provider: mistral
+  capabilities:
+    code-generation: 4.0
+    code-review: 3.9
+    summarization: 4.0
+    chat: 4.0
+    analysis: 4.0
+    translation: 4.2
+    extraction: 4.0
+    creative: 3.8
+  pricing:
+    inputPerMtok: 2.0
+    outputPerMtok: 6.0
+  maxContext: 128000
+  medianLatencyMs: 900
+  outputSpeedTps: 85

@@ -1,0 +1,31 @@
+{
+  "name": "@sentinelai/cost-tracker",
+  "version": "0.1.0",
+  "description": "LLM cost tracking, prediction, and budget management",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc && cp src/providers/pricing.yaml dist/providers/",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@sentinelai/core": "workspace:*",
+    "better-sqlite3": "^11.8.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@types/better-sqlite3": "^7.6.0"
+  }
+}

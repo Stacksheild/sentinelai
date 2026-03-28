@@ -1,0 +1,58 @@
+# SentinelAI Pricing Data
+# Last updated: 2026-03-27
+# Submit PRs to update pricing as providers change rates
+
+anthropic:
+  claude-opus-4-20250514:
+    input_per_mtok: 15.0
+    output_per_mtok: 75.0
+    cache_read_per_mtok: 1.5
+    cache_write_per_mtok: 18.75
+  claude-sonnet-4-20250514:
+    input_per_mtok: 3.0
+    output_per_mtok: 15.0
+    cache_read_per_mtok: 0.3
+    cache_write_per_mtok: 3.75
+  claude-haiku-3.5:
+    input_per_mtok: 0.8
+    output_per_mtok: 4.0
+    cache_read_per_mtok: 0.08
+    cache_write_per_mtok: 1.0
+
+openai:
+  gpt-4o:
+    input_per_mtok: 2.5
+    output_per_mtok: 10.0
+  gpt-4o-mini:
+    input_per_mtok: 0.15
+    output_per_mtok: 0.6
+  o1:
+    input_per_mtok: 15.0
+    output_per_mtok: 60.0
+  o3-mini:
+    input_per_mtok: 1.1
+    output_per_mtok: 4.4
+
+google:
+  gemini-2.0-flash:
+    input_per_mtok: 0.1
+    output_per_mtok: 0.4
+  gemini-2.0-pro:
+    input_per_mtok: 1.25
+    output_per_mtok: 10.0
+
+mistral:
+  mistral-large:
+    input_per_mtok: 2.0
+    output_per_mtok: 6.0
+  mistral-small:
+    input_per_mtok: 0.1
+    output_per_mtok: 0.3
+
+deepseek:
+  deepseek-chat:
+    input_per_mtok: 0.14
+    output_per_mtok: 0.28
+  deepseek-reasoner:
+    input_per_mtok: 0.55
+    output_per_mtok: 2.19

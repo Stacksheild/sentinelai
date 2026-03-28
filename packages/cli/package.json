@@ -1,0 +1,26 @@
+{
+  "name": "sentinelai",
+  "version": "0.1.0",
+  "description": "AI ecosystem security scanner, cost tracker, and model router",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "sentinelai": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@sentinelai/core": "workspace:*",
+    "@sentinelai/scanner": "workspace:*",
+    "@sentinelai/cost-tracker": "workspace:*",
+    "@sentinelai/model-router": "workspace:*",
+    "commander": "^13.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
