@@ -55,9 +55,17 @@ export function recommend(
     );
   }
 
-  if (request.maxLatencyMs !== undefined) {
+if (request.maxLatencyMs !== undefined) {
     candidates = candidates.filter(
       (p) => p.medianLatencyMs <= request.maxLatencyMs!,
+    );
+  }
+
+  if (request.qualityFloor !== undefined) {
+    const taskTypeForFilter =
+      request.taskType ?? (request.prompt ? classifyTask(request.prompt) : "chat");
+    candidates = candidates.filter(
+      (p) => (p.capabilities[taskTypeForFilter] ?? 0) >= request.qualityFloor!,
     );
   }
 
