@@ -1,5 +1,6 @@
 import { readFileSync, existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, join } from "node:path";
+import { homedir } from "node:os";
 import { parse as parseYaml } from "yaml";
 
 export interface SentinelConfig {
@@ -27,6 +28,19 @@ export interface SentinelConfig {
     blockedModels?: string[];
   };
 }
+function defaultStoragePath(): string {
+  // Prefer XDG_DATA_HOME on Linux/macOS, fallback to ~/.local/share.
+  // On Windows, use LOCALAPPDATA.
+  const xdg = process.env.XDG_DATA_HOME;
+  if (xdg) return join(xdg, "sentinelai", "usage.db");
+
+  if (process.platform === "win32") {
+    const local = process.env.LOCALAPPDATA ?? join(homedir(), "AppData", "Local");
+    return join(local, "sentinelai", "usage.db");
+  }
+
+  return join(homedir(), ".local", "share", "sentinelai", "usage.db");
+}
 
 const DEFAULT_CONFIG: SentinelConfig = {
   scanner: {
@@ -34,7 +48,7 @@ const DEFAULT_CONFIG: SentinelConfig = {
     severityThreshold: "low",
   },
   cost: {
-    storage: "./sentinelai.db",
+    storage: defaultStoragePath(),
     proxyPort: 9191,
     budgets: [],
   },
