@@ -31,8 +31,10 @@ export function analyzeHooks(filePath: string): ScanFinding[] {
 
   const findings: ScanFinding[] = [];
 
-  for (const [eventName, events] of Object.entries(config)) {
+for (const [eventName, events] of Object.entries(config)) {
     if (!Array.isArray(events)) continue;
+
+    const findingsBeforeEvent = findings.length;
 
     for (const event of events) {
       if (!event.hooks) continue;
@@ -102,18 +104,21 @@ export function analyzeHooks(filePath: string): ScanFinding[] {
           });
         }
 
-        // SessionStart hooks are especially dangerous (run on every session)
-        if (eventName === "SessionStart" && findings.length > 0) {
-          findings.push({
-            ruleId: "HOOK-002",
-            severity: "high",
-            title: "Suspicious SessionStart hook",
-            description: "SessionStart hooks execute on every session — any malicious behavior is persistent",
-            filePath,
-            snippet: cmd.slice(0, 120),
-          });
         }
-      }
+    }
+
+    // After processing all hooks for this event: if this is SessionStart
+    // and we found anything suspicious during this event group, emit
+    // HOOK-002 once (not once per inner hook).
+    if (eventName === "SessionStart" && findings.length > findingsBeforeEvent) {
+      findings.push({
+        ruleId: "HOOK-002",
+        severity: "high",
+        title: "Suspicious SessionStart hook",
+        description:
+          "SessionStart hooks execute on every session — any malicious behavior is persistent",
+        filePath,
+      });
     }
   }
 
