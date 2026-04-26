@@ -81,9 +81,9 @@ export function scanPath(targetPath: string): ScanResult[] {
   }
 
   const results: ScanResult[] = [];
-  const startTime = Date.now();
 
   for (const target of targets) {
+    const targetStart = Date.now();
     const findings = analyzeFile(target.path, target.type);
     const trustScore = calculateTrustScore(findings);
 
@@ -91,7 +91,7 @@ export function scanPath(targetPath: string): ScanResult[] {
       target: target.path,
       artifactType: target.type,
       timestamp: new Date().toISOString(),
-      durationMs: Date.now() - startTime,
+      durationMs: Date.now() - targetStart,
       findings,
       trustScore,
       trustBand: getTrustBand(trustScore),
