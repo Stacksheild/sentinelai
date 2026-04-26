@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { analyzeSkill } from "../analyzers/skill-analyzer.js";
@@ -13,9 +13,8 @@ describe("analyzeSkill", () => {
   });
 
   function skillFile(content: string): string {
-    const dir = join(tmpdir(), `sentinel-skill-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    const dir = mkdtempSync(join(tmpdir(), "sentinel-skill-"));
     tmpDirs.push(dir);
-    mkdirSync(dir, { recursive: true });
     const file = join(dir, "skill.md");
     writeFileSync(file, content);
     return file;

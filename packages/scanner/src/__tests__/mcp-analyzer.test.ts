@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { analyzeMcpConfig } from "../analyzers/mcp-analyzer.js";
@@ -13,9 +13,8 @@ describe("analyzeMcpConfig", () => {
   });
 
   function mcpFile(content: object): string {
-    const dir = join(tmpdir(), `sentinel-mcp-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    const dir = mkdtempSync(join(tmpdir(), "sentinel-mcp-"));
     tmpDirs.push(dir);
-    mkdirSync(dir, { recursive: true });
     const file = join(dir, "server.mcp.json");
     writeFileSync(file, JSON.stringify(content));
     return file;
@@ -34,9 +33,8 @@ describe("analyzeMcpConfig", () => {
   });
 
   it("returns MCP-001 for invalid JSON", () => {
-    const dir = join(tmpdir(), `sentinel-mcp-bad-${Date.now()}`);
+    const dir = mkdtempSync(join(tmpdir(), "sentinel-mcp-bad-"));
     tmpDirs.push(dir);
-    mkdirSync(dir, { recursive: true });
     const file = join(dir, "server.mcp.json");
     writeFileSync(file, "{{broken");
     const findings = analyzeMcpConfig(file);

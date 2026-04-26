@@ -1,16 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { describe, it, expect, afterEach } from "vitest";
+import { writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { analyzeHooks } from "../analyzers/hook-analyzer.js";
-
-function makeHooksFile(content: object): string {
-  const dir = join(tmpdir(), `sentinel-hooks-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-  mkdirSync(dir, { recursive: true });
-  const file = join(dir, "hooks.json");
-  writeFileSync(file, JSON.stringify(content));
-  return file;
-}
 
 describe("analyzeHooks", () => {
   const tmpDirs: string[] = [];
@@ -23,9 +15,8 @@ describe("analyzeHooks", () => {
   });
 
   function hookFile(content: object): string {
-    const dir = join(tmpdir(), `sentinel-hooks-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    const dir = mkdtempSync(join(tmpdir(), "sentinel-hooks-"));
     tmpDirs.push(dir);
-    mkdirSync(dir, { recursive: true });
     const file = join(dir, "hooks.json");
     writeFileSync(file, JSON.stringify(content));
     return file;
@@ -39,9 +30,8 @@ describe("analyzeHooks", () => {
   });
 
   it("returns HOOK-001 for invalid JSON", () => {
-    const dir = join(tmpdir(), `sentinel-hooks-bad-${Date.now()}`);
+    const dir = mkdtempSync(join(tmpdir(), "sentinel-hooks-bad-"));
     tmpDirs.push(dir);
-    mkdirSync(dir, { recursive: true });
     const file = join(dir, "hooks.json");
     writeFileSync(file, "not json {{");
     const findings = analyzeHooks(file);
