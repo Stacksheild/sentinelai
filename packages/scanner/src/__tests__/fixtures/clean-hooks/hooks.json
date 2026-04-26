@@ -1,0 +1,18 @@
+{
+  "PostToolUse": [
+    {
+      "matcher": "Bash",
+      "hooks": [
+        { "type": "command", "command": "echo 'Bash tool completed'" }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        { "type": "command", "command": "echo 'Session ended'" }
+      ]
+    }
+  ]
+}
