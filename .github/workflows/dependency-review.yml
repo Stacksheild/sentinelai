@@ -10,6 +10,9 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
+    # Requires Dependency graph to be enabled in repo Security settings.
+    # continue-on-error keeps this non-blocking until the feature is turned on.
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
