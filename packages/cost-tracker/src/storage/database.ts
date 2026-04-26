@@ -1,4 +1,6 @@
 import Database from "better-sqlite3";
+import { mkdirSync, chmodSync, existsSync } from "node:fs";
+import { dirname } from "node:path";
 import type { UsageRecord, CostReport, Budget } from "@sentinelai/core";
 
 const SCHEMA = `
@@ -49,9 +51,24 @@ export class CostDatabase {
   private db: Database.Database;
 
   constructor(dbPath: string) {
+    // Ensure parent directory exists and the DB file is created with
+    // restrictive permissions (0600) on POSIX. On Windows, chmod is a no-op.
+    const parent = dirname(dbPath);
+    if (parent && parent !== "." && !existsSync(parent)) {
+      mkdirSync(parent, { recursive: true, mode: 0o700 });
+    }
+
     this.db = new Database(dbPath);
     this.db.pragma("journal_mode = WAL");
     this.db.exec(SCHEMA);
+
+    if (process.platform !== "win32") {
+      try {
+        chmodSync(dbPath, 0o600);
+      } catch {
+        // Best effort — don't fail the caller if chmod isn't permitted.
+      }
+    }
   }
 
   insertUsage(record: UsageRecord): void {
