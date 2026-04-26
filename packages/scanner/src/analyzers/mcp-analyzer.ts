@@ -1,5 +1,9 @@
 import { readFileSync } from "node:fs";
 import type { ScanFinding } from "@sentinelai/core";
+import {
+  DANGEROUS_SHELL_PATTERNS,
+  severityForRuleId,
+} from "./shared-patterns.js";
 
 interface McpToolDef {
   name?: string;
@@ -76,6 +80,29 @@ export function analyzeMcpConfig(filePath: string): ScanFinding[] {
           filePath,
           snippet: `args: ${argsStr.slice(0, 100)}`,
         });
+      }
+    }
+    // Run shared shell-pattern rules against the effective command
+    // (command + args joined). This catches reverse shells, credential
+    // exfiltration, and inline code execution hidden inside args[].
+    const effectiveCommand = [server.command ?? "", ...(server.args ?? [])]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+
+    if (effectiveCommand) {
+      for (const rule of DANGEROUS_SHELL_PATTERNS) {
+        if (rule.pattern.test(effectiveCommand)) {
+          findings.push({
+            ruleId: rule.ruleId,
+            severity: severityForRuleId(rule.ruleId),
+            title: `MCP server "${serverName}": ${rule.title}`,
+            description: rule.description,
+            filePath,
+            snippet: effectiveCommand.slice(0, 160),
+          });
+        }
+        rule.pattern.lastIndex = 0;
       }
     }
 
