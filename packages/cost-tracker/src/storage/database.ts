@@ -33,7 +33,7 @@ const SCHEMA = `
 
   CREATE TABLE IF NOT EXISTS budgets (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    name          TEXT NOT NULL,
+    name          TEXT NOT NULL UNIQUE,
     project       TEXT,
     period        TEXT NOT NULL,
     limit_usd     REAL NOT NULL,
@@ -168,7 +168,24 @@ export class CostDatabase {
   }
 
   getBudgets(): Budget[] {
-    return this.db.prepare("SELECT * FROM budgets").all() as Budget[];
+    const rows = this.db.prepare("SELECT * FROM budgets").all() as Array<{
+      id: number;
+      name: string;
+      project: string | null;
+      period: string;
+      limit_usd: number;
+      alert_at_pct: number;
+      webhook_url: string | null;
+    }>;
+    return rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+      project: row.project ?? undefined,
+      period: row.period as Budget["period"],
+      limitUsd: row.limit_usd,
+      alertAtPct: row.alert_at_pct,
+      webhookUrl: row.webhook_url ?? undefined,
+    }));
   }
 
   close(): void {
