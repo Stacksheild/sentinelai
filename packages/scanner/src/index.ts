@@ -1,5 +1,5 @@
 import { readdirSync, statSync, existsSync } from "node:fs";
-import { resolve, basename, extname } from "node:path";
+import { resolve, basename, dirname, extname } from "node:path";
 import type { ArtifactType, ScanFinding, ScanResult } from "@sentinelai/core";
 import { analyzeSkill } from "./analyzers/skill-analyzer.js";
 import { analyzeMcpConfig } from "./analyzers/mcp-analyzer.js";
@@ -16,6 +16,12 @@ function detectArtifactType(filePath: string): ArtifactType | null {
   if (name === "hooks.json") return "hook";
   if (name.includes("mcp") && ext === ".json") return "mcp-server";
   if (name === ".mcp.json" || name === "mcp.json") return "mcp-server";
+
+  // Any .md file inside a directory named "skills" is treated as a skill.
+  // Supports the Claude Code convention: ~/.claude/skills/*.md
+  if (ext === ".md" && basename(dirname(filePath)).toLowerCase() === "skills") {
+    return "skill";
+  }
 
   return null;
 }
