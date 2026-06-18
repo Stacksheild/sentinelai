@@ -52,7 +52,8 @@ costCommand
       console.log(`By ${opts.by}:`);
       const sorted = Object.entries(breakdown).sort(([, a], [, b]) => b - a);
       for (const [key, value] of sorted) {
-        const bar = "#".repeat(Math.round((value / report.totalCostUsd) * 30));
+        const pct = report.totalCostUsd > 0 ? value / report.totalCostUsd : 0;
+        const bar = "#".repeat(Math.round(pct * 30));
         console.log(`  ${key.padEnd(30)} $${value.toFixed(2).padStart(10)} ${bar}`);
       }
     }

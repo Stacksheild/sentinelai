@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsc && cp -r src/profiles dist/",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
   },

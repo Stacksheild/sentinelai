@@ -26,10 +26,14 @@ const DEFAULT_WEIGHTS: Record<RouteStrategy, RouteWeights> = {
   balanced: { quality: 0.5, cost: 0.3, latency: 0.2 },
 };
 
+let cachedProfiles: ModelProfile[] | null = null;
+
 function loadProfiles(): ModelProfile[] {
+  if (cachedProfiles) return cachedProfiles;
   const profilePath = resolve(__dirname, "../profiles/models.yaml");
   const raw = readFileSync(profilePath, "utf-8");
-  return parseYaml(raw) as ModelProfile[];
+  cachedProfiles = parseYaml(raw) as ModelProfile[];
+  return cachedProfiles;
 }
 
 export function recommend(

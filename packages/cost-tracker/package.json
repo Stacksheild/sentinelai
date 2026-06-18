@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsc && cp src/providers/pricing.yaml dist/providers/",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
